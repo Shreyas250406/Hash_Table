@@ -2146,82 +2146,118 @@
 
 
 :root {
+  /* ----- Light theme (default) ----- */
   --font-size: 16px;
-  --background: #0e0e1a;
-  --foreground: #e6e6e6;
-  --card: #0e0e1a;
-  --card-foreground: #e6e6e6;
-  --popover: #1a0b2e;
-  --popover-foreground: #e6e6e6;
-  --primary: #00ffb2;
-  --primary-foreground: #000;
-  --secondary: #4cc9f0;
-  --secondary-foreground: #000;
-  --muted: #a0a0a0;
-  --muted-foreground: #a0a0a0;
-  --accent: #4cc9f0;
-  --accent-foreground: #000;
+
+  /* Background / text */
+  --background: #f8fafc;         /* very light gray / off-white */
+  --foreground: #0b1220;         /* near-black for text */
+
+  /* Card / surfaces */
+  --card: #ffffff;               /* white cards */
+  --card-foreground: #0b1220;
+  --popover: #ffffff;
+  --popover-foreground: #0b1220;
+  --border: #e6edf3;             /* subtle light border */
+
+  /* Primary / accents (choose light-theme colors) */
+  --primary: #0b79ff;            /* pleasant blue */
+  --primary-foreground: #ffffff;
+
+  --secondary: #4cc9f0;          /* complementary */
+  --secondary-foreground: #0b1220;
+
+  /* Muted text */
+  --muted: #6b7280;
+  --muted-foreground: #6b7280;
+
+  /* Accent / highlights used in UI */
+  --accent: #0b79ff;
+  --accent-foreground: #fff;
+
+  /* Danger / destructive */
   --destructive: #ff4d6d;
   --destructive-foreground: #fff;
-  --border: #ffffff1a;
-  --input: transparent;
-  --input-background: #ffffff0d;
-  --switch-background: #ffffff1a;
-  --font-weight-medium: 600;
-  --font-weight-normal: 400;
-  --ring: #00ffb2;
-  --chart-1: #00ffb2;
+
+  /* Inputs, rings */
+  --input: #f1f5f9;
+  --input-background: #ffffff;
+  --switch-background: #e6eefc;
+  --ring: #0b79ff;
+
+  /* Charts / UI extras */
+  --chart-1: #0b79ff;
   --chart-2: #4cc9f0;
   --chart-3: #ff4d6d;
   --chart-4: #ffd60a;
-  --chart-5: #1a0b2e;
+  --chart-5: #f8fafc;
+
   --radius: .75rem;
-  --sidebar: #0e0e1a;
-  --sidebar-foreground: #e6e6e6;
-  --sidebar-primary: #00ffb2;
-  --sidebar-primary-foreground: #000;
-  --sidebar-accent: #ffffff0d;
-  --sidebar-accent-foreground: #e6e6e6;
-  --sidebar-border: #ffffff1a;
-  --sidebar-ring: #00ffb2;
+
+  /* Sidebar / nav in light mode */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0b1220;
+  --sidebar-primary: #0b79ff;
+  --sidebar-primary-foreground: #fff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #6b7280;
+  --sidebar-border: #e6edf3;
+  --sidebar-ring: #0b79ff;
+
+  --font-weight-medium: 600;
+  --font-weight-normal: 400;
 }
 
 .dark {
-  --background: #0e0e1a;
-  --foreground: #e6e6e6;
-  --card: #0e0e1a;
+  /* ----- Dark theme overrides ----- */
+  --background: #0e0e1a;         /* deep navy / near black */
+  --foreground: #e6e6e6;         /* light text for dark background */
+
+  --card: rgba(255,255,255,0.03); /* translucent dark cards */
   --card-foreground: #e6e6e6;
   --popover: #1a0b2e;
   --popover-foreground: #e6e6e6;
+
+  --border: rgba(255,255,255,0.08);
+  --input: rgba(255,255,255,0.04);
+  --input-background: rgba(255,255,255,0.03);
+  --switch-background: rgba(255,255,255,0.06);
+  --ring: #00ffb2;
+
   --primary: #00ffb2;
-  --primary-foreground: #000;
+  --primary-foreground: #000000;
+
   --secondary: #4cc9f0;
-  --secondary-foreground: #000;
-  --muted: #a0a0a0;
-  --muted-foreground: #a0a0a0;
+  --secondary-foreground: #000000;
+
+  --muted: #9aa3b2;
+  --muted-foreground: #9aa3b2;
+
   --accent: #4cc9f0;
-  --accent-foreground: #000;
+  --accent-foreground: #000000;
+
   --destructive: #ff4d6d;
   --destructive-foreground: #fff;
-  --border: #ffffff1a;
-  --input: #ffffff1a;
-  --ring: #00ffb2;
-  --font-weight-medium: 600;
-  --font-weight-normal: 400;
+
   --chart-1: #00ffb2;
   --chart-2: #4cc9f0;
   --chart-3: #ff4d6d;
   --chart-4: #ffd60a;
   --chart-5: #1a0b2e;
+
   --sidebar: #0e0e1a;
   --sidebar-foreground: #e6e6e6;
   --sidebar-primary: #00ffb2;
   --sidebar-primary-foreground: #000;
-  --sidebar-accent: #ffffff0d;
+  --sidebar-accent: rgba(255,255,255,0.06);
   --sidebar-accent-foreground: #e6e6e6;
-  --sidebar-border: #ffffff1a;
+  --sidebar-border: rgba(255,255,255,0.08);
   --sidebar-ring: #00ffb2;
+
+  --font-weight-medium: 600;
+  --font-weight-normal: 400;
 }
+
 
 html {
   font-size: var(--font-size);

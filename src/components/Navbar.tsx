@@ -1,44 +1,77 @@
-import { useState } from 'react';
-import { Moon, Sun, Hash } from 'lucide-react';
-import { motion } from 'motion/react';
-import { Link, useLocation } from 'react-router-dom';
+import { Moon, Sun, Hash } from "lucide-react";
+import { motion } from "motion/react";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
-export function Navbar() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+interface NavbarProps {
+  theme: "dark" | "light";
+  setTheme: React.Dispatch<React.SetStateAction<"dark" | "light">>;
+}
+
+export function Navbar({ theme, setTheme }: NavbarProps) {
   const location = useLocation();
 
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+  };
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
+
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Visualizer', href: '/visualizer' },
-    { name: 'Theory', href: '/theory' },
-    { name: 'Code', href: '/code' },
-    { name: 'Videos', href: '/videos' },
-    { name: 'Quiz', href: '/quiz' },
+    { name: "Home", href: "/" },
+    { name: "Visualizer", href: "/visualizer" },
+    { name: "Theory", href: "/theory" },
+    { name: "Code", href: "/code" },
+    { name: "Videos", href: "/videos" },
+    { name: "Quiz", href: "/quiz" },
   ];
 
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="fixed top-0 left-0 right-0 z-50 px-6 py-4"
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="fixed top-0 left-0 right-0 z-50 px-6 py-4 backdrop-blur-lg"
       style={{
-        background: 'rgba(0, 0, 0, 0.4)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        background:
+          theme === "dark"
+            ? "rgba(0, 0, 0, 0.4)"
+            : "rgba(255, 255, 255, 0.7)",
+        borderBottom: theme === "dark"
+          ? "1px solid rgba(255,255,255,0.1)"
+          : "1px solid rgba(0,0,0,0.1)",
       }}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <div className="relative">
-            <Hash className="w-8 h-8 text-[#00FFB2]" strokeWidth={2.5} />
-            <div className="absolute inset-0 blur-lg bg-[#00FFB2] opacity-50" />
+            <Hash
+              className={`w-8 h-8 ${
+                theme === "dark" ? "text-[#00FFB2]" : "text-[#0B79FF]"
+              }`}
+              strokeWidth={2.5}
+            />
+            <div
+              className={`absolute inset-0 blur-lg ${
+                theme === "dark" ? "bg-[#00FFB2]" : "bg-[#0B79FF]"
+              } opacity-40`}
+            />
           </div>
           <span
-            className="text-white tracking-wide"
+            className={`tracking-wide font-semibold ${
+              theme === "dark" ? "text-white" : "text-black"
+            }`}
             style={{
-              textShadow: '0 0 20px rgba(0, 255, 178, 0.5)',
+              textShadow:
+                theme === "dark"
+                  ? "0 0 20px rgba(0, 255, 178, 0.5)"
+                  : "0 0 12px rgba(11, 121, 255, 0.3)",
             }}
           >
             HashLearn
@@ -51,18 +84,24 @@ export function Navbar() {
             <Link
               key={link.name}
               to={link.href}
-              className={`relative group transition-all duration-300 ${
+              className={`relative group font-medium transition-all duration-300 ${
                 location.pathname === link.href
-                  ? 'text-white'
-                  : 'text-[#A0A0A0] hover:text-white'
+                  ? theme === "dark"
+                    ? "text-white"
+                    : "text-black"
+                  : theme === "dark"
+                  ? "text-[#A0A0A0] hover:text-white"
+                  : "text-gray-600 hover:text-black"
               }`}
             >
               {link.name}
               <span
-                className={`absolute -bottom-1 left-0 h-0.5 bg-[#00FFB2] transition-all duration-300 shadow-[0_0_10px_rgba(0,255,178,0.5)] ${
+                className={`absolute -bottom-1 left-0 h-0.5 transition-all duration-300 ${
+                  theme === "dark" ? "bg-[#00FFB2]" : "bg-[#0B79FF]"
+                } ${
                   location.pathname === link.href
-                    ? 'w-full'
-                    : 'w-0 group-hover:w-full'
+                    ? "w-full"
+                    : "w-0 group-hover:w-full"
                 }`}
               />
             </Link>
@@ -70,13 +109,18 @@ export function Navbar() {
 
           {/* Theme Toggle */}
           <button
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300 border border-white/10 hover:shadow-[0_0_20px_rgba(76,201,240,0.3)]"
+            onClick={toggleTheme}
+            className={`p-2 rounded-lg border transition-all duration-300 ${
+              theme === "dark"
+                ? "bg-white/5 border-white/10 hover:bg-white/10"
+                : "bg-black/5 border-black/10 hover:bg-black/10"
+            }`}
+            aria-label="Toggle Theme"
           >
-            {theme === 'dark' ? (
+            {theme === "dark" ? (
               <Moon className="w-5 h-5 text-[#4CC9F0]" />
             ) : (
-              <Sun className="w-5 h-5 text-[#FFD60A]" />
+              <Sun className="w-5 h-5 text-yellow-500" />
             )}
           </button>
         </div>

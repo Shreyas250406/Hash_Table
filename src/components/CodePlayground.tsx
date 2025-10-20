@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Copy, Check } from "lucide-react";
 import { Button } from "./ui/button";
@@ -107,14 +107,31 @@ const CodeBlock = ({
   code,
   onCopy,
   copied,
+  theme,
 }: {
   code: string;
   onCopy: () => void;
   copied: boolean;
+  theme: "light" | "dark";
 }) => (
-  <div className="relative group">
-    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#00FFB2] to-[#4CC9F0] rounded-l" />
-    <div className="p-6 pl-8 rounded-xl bg-[#0D0D18] border border-white/10 overflow-x-auto relative">
+  <div className="relative group transition-all duration-700">
+    <div
+      className="absolute left-0 top-0 bottom-0 w-1 rounded-l"
+      style={{
+        background: theme === "dark"
+          ? "linear-gradient(to bottom, #00FFB2, #4CC9F0)"
+          : "linear-gradient(to bottom, #0B79FF, #8B5CF6)",
+      }}
+    />
+    <div
+      className="p-6 pl-8 rounded-xl border overflow-x-auto relative transition-all duration-700"
+      style={{
+        backgroundColor:
+          theme === "dark" ? "#0D0D18" : "#F9FAFB",
+        borderColor:
+          theme === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)",
+      }}
+    >
       <Button
         size="sm"
         variant="ghost"
@@ -122,12 +139,20 @@ const CodeBlock = ({
         className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
       >
         {copied ? (
-          <Check className="w-4 h-4 text-[#00FFB2]" />
+          <Check
+            className="w-4 h-4"
+            style={{ color: theme === "dark" ? "#00FFB2" : "#0B79FF" }}
+          />
         ) : (
           <Copy className="w-4 h-4" />
         )}
       </Button>
-      <pre className="text-sm text-[#E6E6E6] font-mono leading-relaxed whitespace-pre">
+      <pre
+        className="text-sm font-mono leading-relaxed whitespace-pre transition-colors duration-700"
+        style={{
+          color: theme === "dark" ? "#E6E6E6" : "#111827",
+        }}
+      >
         <code>{code}</code>
       </pre>
     </div>
@@ -136,6 +161,7 @@ const CodeBlock = ({
 
 export function CodePlayground() {
   const [copied, setCopied] = useState<string | null>(null);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [selectedLangs, setSelectedLangs] = useState<{
     [key: string]: Language;
   }>({
@@ -143,6 +169,12 @@ export function CodePlayground() {
     search: "cpp",
     delete: "cpp",
   });
+
+  useEffect(() => {
+    const html = document.documentElement;
+    if (html.classList.contains("dark")) setTheme("dark");
+    else setTheme("light");
+  }, []);
 
   const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -156,24 +188,42 @@ export function CodePlayground() {
 
   const operations = ["insert", "search", "delete"] as const;
   const colors = {
-    insert: "#00FFB2",
-    search: "#FFD60A",
-    delete: "#FF4D6D",
+    insert: theme === "dark" ? "#00FFB2" : "#0B79FF",
+    search: theme === "dark" ? "#FFD60A" : "#EAB308",
+    delete: theme === "dark" ? "#FF4D6D" : "#EF4444",
   };
 
   return (
-    <section id="code" className="py-20 px-6 relative">
+    <section
+      id="code"
+      className="py-20 px-6 relative transition-all duration-700"
+      style={{
+        backgroundColor: theme === "dark" ? "#0E0E1A" : "#F3F4F6",
+      }}
+    >
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-12 transition-all duration-700"
         >
-          <h2 className="text-white mb-4">Hash Table Function Implementations</h2>
-          <p className="text-[#A0A0A0] max-w-2xl mx-auto">
-            Learn how to perform insertion, search, and deletion in hash tables using
-            simple functions — available in C++, Java, and Python.
+          <h2
+            className="mb-4"
+            style={{
+              color: theme === "dark" ? "#FFFFFF" : "#1E293B",
+            }}
+          >
+            Hash Table Function Implementations
+          </h2>
+          <p
+            className="max-w-2xl mx-auto"
+            style={{
+              color: theme === "dark" ? "#A0A0A0" : "#475569",
+            }}
+          >
+            Learn how to perform insertion, search, and deletion in hash tables
+            using simple functions — available in C++, Java, and Python.
           </p>
         </motion.div>
 
@@ -184,9 +234,14 @@ export function CodePlayground() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="mb-10"
+            className="mb-10 transition-all duration-700"
           >
-            <h3 className="text-white mb-4 flex items-center gap-2">
+            <h3
+              className="mb-4 flex items-center gap-2"
+              style={{
+                color: theme === "dark" ? "#FFFFFF" : "#111827",
+              }}
+            >
               <span
                 className="w-2 h-2 rounded-full"
                 style={{ background: colors[op] }}
@@ -202,9 +257,29 @@ export function CodePlayground() {
                   onClick={() => handleLangChange(op, lang)}
                   className={`px-5 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
                     selectedLangs[op] === lang
-                      ? "bg-[#00FFB2] text-black shadow-[0_0_15px_rgba(0,255,178,0.3)]"
-                      : "bg-white/5 text-[#A0A0A0] border border-white/10 hover:border-[#00FFB2]/40 hover:text-white"
+                      ? "shadow-[0_0_15px_rgba(0,255,178,0.3)]"
+                      : ""
                   }`}
+                  style={{
+                    backgroundColor:
+                      selectedLangs[op] === lang
+                        ? colors[op]
+                        : theme === "dark"
+                        ? "rgba(255,255,255,0.05)"
+                        : "#FFFFFF",
+                    color:
+                      selectedLangs[op] === lang
+                        ? "#000"
+                        : theme === "dark"
+                        ? "#A0A0A0"
+                        : "#1F2937",
+                    border:
+                      selectedLangs[op] === lang
+                        ? "none"
+                        : theme === "dark"
+                        ? "1px solid rgba(255,255,255,0.1)"
+                        : "1px solid rgba(0,0,0,0.1)",
+                  }}
                 >
                   {languageLabels[lang]}
                 </button>
@@ -218,6 +293,7 @@ export function CodePlayground() {
                 copyToClipboard(codeSnippets[op][selectedLangs[op]], op)
               }
               copied={copied === op}
+              theme={theme}
             />
           </motion.div>
         ))}
