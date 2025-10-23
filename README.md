@@ -43,7 +43,6 @@ The website provides the following sections accessible via the **navbar**:
 Check out the live website here: [HashLearn Live Demo](https://hashlearn-three.vercel.app/)
 
 ![Hashing Visualizer Demo](assets/demo.gif)  
-*(Replace with an actual GIF or screenshot of your app if available)*
 
 ---
 
